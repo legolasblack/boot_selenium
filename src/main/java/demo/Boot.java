@@ -81,13 +81,15 @@ public class Boot {
     public void login_nuovo() {
         WebElement userbox = driver.findElement(By.id("outlined-email-input"));
         WebElement passbox = driver.findElement(By.id("outlined-adornment-password"));
-        WebElement button_sigin = driver
-                .findElement(By.xpath("/html/body/div[1]/div/main/div/div[1]/div/div/div[2]/div/div/button"));
+        WebElement button_sigin = driver.findElement(By.xpath("/html/body/div[1]/div/main/div/div[1]/div/div/div[2]/div/div/button"));
         WebElement label_devices;
         WebElement button_csv;
         WebElement label_AllDivices;
         WebElement first_input_date;
+        WebElement text_month;
+        WebElement button_last_mounth;
         WebElement second_input_date;
+        WebElement button_generate_csv;
 
         userbox.clear();
         userbox.sendKeys(this.user);
@@ -106,7 +108,7 @@ public class Boot {
             label_devices = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[2]/div[2]/div/div/ul/a[2]"));
             label_devices.click();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
             System.out.println("aqui terminamos el click de device");
         } catch (Exception e) {
             // TODO: handle exception
@@ -118,16 +120,54 @@ public class Boot {
         label_AllDivices.click();
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
+            first_input_date = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+            first_input_date.click();
+            button_last_mounth=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+            while (true) {
+                text_month=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
+                if (text_month.getText().equals(this.mes_inicio)) {
+                    System.out.println("por pinchar en la fecha uno ");
+                    Thread.sleep(2000);
+
+                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[2]/button")).click();
+                    System.out.println("ya lo pinches haber que pasa ");
+                    break;
+                } else {
+                    button_last_mounth.click();
+                }
+                
+            }
+
+            //aqui ya seleccionamos la primer fecha vamos a cargar la segunda
+
+            second_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
+            second_input_date.click();
+            button_last_mounth=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+            while (true) {
+                text_month=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
+                if (text_month.getText().equals(this.mes_inicio)) {
+                    System.out.println("por pinchar en la fecha uno ");
+                    Thread.sleep(2000);
+
+                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[5]/div[3]/button")).click();
+                    System.out.println("ya lo pinches haber que pasa ");
+                    break;
+                } else {
+                    button_last_mounth.click();
+                }
+                
+            }
+            //esta seccion de aqui comentada libera el boton y genera el reporte csv
+/*             Thread.sleep(2000);
+            button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+            button_generate_csv.click(); */
+
         } catch (Exception e) {
             // TODO: handle exception
         }
-        first_input_date = driver.findElement(By.id("date-picker-inline-from-date"));
-        first_input_date.clear();
-        first_input_date.sendKeys("01112021");
-        second_input_date = driver.findElement(By.id("date-picker-inline-to-date"));
-        second_input_date.clear();
-        second_input_date.sendKeys("30112021");
+       // second_input_date = driver.findElement(By.id("date-picker-inline-to-date"));
+        
 
         System.out.println("Fin del juego");
     }
