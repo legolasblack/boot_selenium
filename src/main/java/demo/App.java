@@ -7,12 +7,14 @@ package demo;
 public class App {
     public static void main(String[] args) {
 
-       /*  Boot bootCredi7 = new Boot("https://credi7.ddns.net/",
-                "DIGUTIERREZ",
-                "DGC66818mgr",
-                "noviembre");
-        bootCredi7.setUp();
-        bootCredi7.login_palace(); */
+        /*
+         * Boot bootCredi7 = new Boot("https://credi7.ddns.net/",
+         * "DIGUTIERREZ",
+         * "DGC66818mgr",
+         * "noviembre");
+         * bootCredi7.setUp();
+         * bootCredi7.login_palace();
+         */
 
         Boot boot_Nuovo = new Boot(
                 "https://app.nuovopay.com/",
@@ -22,5 +24,16 @@ public class App {
 
         boot_Nuovo.setUp();
         boot_Nuovo.login_nuovo();
+
+        /*
+         * Boot boot_Nuovo = new Boot(
+         * "https://app.nuovopay.com/",
+         * "diegocrediwow@outlook.com",
+         * "rjlhqcxw0",
+         * "November 2021");
+         * 
+         * boot_Nuovo.setUp();
+         * boot_Nuovo.login_nuovo();
+         */
     }
 }

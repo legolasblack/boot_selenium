@@ -36,9 +36,11 @@ public class Boot {
             driver = new ChromeDriver();
             driver.manage().window().maximize();
             driver.get(this.url);
+
         } catch (Exception e) {
-            System.out.println("existe el siguiente error: " + e);
+            System.out.println("Error_trycath1_funcion_setUp: " + e);
         }
+        System.out.println("finalizamos el setup con exito");
     }
 
     public void login_palace() {
@@ -49,8 +51,8 @@ public class Boot {
         WebElement boton_autorizacion;
         WebElement registro_ventas;
         WebElement financiamientos;
-        WebElement first_input_date;
-        String frasedeautorizacion = "¡ Acceso autorizado !";
+        //WebElement first_input_date;
+        //String frasedeautorizacion = "¡ Acceso autorizado !";
 
         // utilizamos clear para limpiar lo que pueda ver en los inputs
         // utilizamos sendkeys para escribir un string dentro de los inputs
@@ -59,20 +61,20 @@ public class Boot {
         passbox.clear();
         passbox.sendKeys(this.pass);
         try {
-            Thread.sleep(2000);
+            passbox.submit();
+            label_autorizacion = driver.findElement(By.id("swal2-title"));
+            boton_autorizacion = driver.findElement(By.xpath("/html/body/div[1]/div/div[10]/button[1]"));
+            System.out.println(label_autorizacion.getText());
+            boton_autorizacion.click();
+            Thread.sleep(5000);
+            registro_ventas = driver.findElement(By.xpath("/html/body/div/div[16]/div[4]/div[1]/a"));
+            registro_ventas.click();
+            financiamientos = driver.findElement(By.xpath("/html/body/div/aside[1]/div/nav/ul/li[2]/ul[3]/li/a"));
+            financiamientos.click();
+            System.out.println("hasta aqui llegamos");
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("erros: " + e);
         }
-        passbox.submit();
-        label_autorizacion = driver.findElement(By.id("swal2-title"));
-        boton_autorizacion = driver.findElement(By.xpath("/html/body/div[1]/div/div[10]/button[1]"));
-        System.out.println(label_autorizacion.getText());
-        boton_autorizacion.click();
-        registro_ventas = driver.findElement(By.xpath("/html/body/div/div[15]/div[4]/div[1]/a"));
-        registro_ventas.click();
-        financiamientos = driver.findElement(By.xpath("/html/body/div/aside[1]/div/nav/ul/li[2]/ul[3]/li/a"));
-        financiamientos.click();
-        System.out.println("hasta aqui llegamos");
     }
 
     public void ataqueFuerzaBruta() {
@@ -81,7 +83,8 @@ public class Boot {
     public void login_nuovo() {
         WebElement userbox = driver.findElement(By.id("outlined-email-input"));
         WebElement passbox = driver.findElement(By.id("outlined-adornment-password"));
-        WebElement button_sigin = driver.findElement(By.xpath("/html/body/div[1]/div/main/div/div[1]/div/div/div[2]/div/div/button"));
+        WebElement button_sigin = driver
+                .findElement(By.xpath("/html/body/div[1]/div/main/div/div[1]/div/div/div[2]/div/div/button"));
         WebElement label_devices;
         WebElement button_csv;
         WebElement label_AllDivices;
@@ -121,53 +124,61 @@ public class Boot {
 
         try {
             Thread.sleep(2000);
-            first_input_date = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+            first_input_date = driver.findElement(
+                    By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
             first_input_date.click();
-            button_last_mounth=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+            button_last_mounth = driver
+                    .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
             while (true) {
-                text_month=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
+                text_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
                 if (text_month.getText().equals(this.mes_inicio)) {
                     System.out.println("por pinchar en la fecha uno ");
                     Thread.sleep(2000);
 
-                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[2]/button")).click();
+                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[2]/button"))
+                            .click();
                     System.out.println("ya lo pinches haber que pasa ");
                     break;
                 } else {
                     button_last_mounth.click();
                 }
-                
+
             }
 
-            //aqui ya seleccionamos la primer fecha vamos a cargar la segunda
+            // aqui ya seleccionamos la primer fecha vamos a cargar la segunda
 
-            second_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
+            second_input_date = driver.findElement(
+                    By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
             second_input_date.click();
-            button_last_mounth=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+            button_last_mounth = driver
+                    .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
             while (true) {
-                text_month=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
+                text_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
                 if (text_month.getText().equals(this.mes_inicio)) {
                     System.out.println("por pinchar en la fecha uno ");
                     Thread.sleep(2000);
 
-                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[5]/div[3]/button")).click();
+                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[5]/div[3]/button"))
+                            .click();
                     System.out.println("ya lo pinches haber que pasa ");
                     break;
                 } else {
                     button_last_mounth.click();
                 }
-                
+
             }
-            //esta seccion de aqui comentada libera el boton y genera el reporte csv
-/*             Thread.sleep(2000);
-            button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
-            button_generate_csv.click(); */
+            // esta seccion de aqui comentada libera el boton y genera el reporte csv
+            /*
+             * Thread.sleep(2000);
+             * button_generate_csv=driver.findElement(By.xpath(
+             * "/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+             * button_generate_csv.click();
+             */
 
         } catch (Exception e) {
             // TODO: handle exception
         }
-       // second_input_date = driver.findElement(By.id("date-picker-inline-to-date"));
-        
+        // second_input_date = driver.findElement(By.id("date-picker-inline-to-date"));
 
         System.out.println("Fin del juego");
     }
