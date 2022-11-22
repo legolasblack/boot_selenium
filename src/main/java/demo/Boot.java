@@ -137,108 +137,66 @@ public class Boot {
             first_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
             first_input_date.click();
 
-            //MuiPickersBasePicker-container
-            //MuiPickersBasePicker-container
-            ///html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[1]/button
-            ///html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[6]/div[2]/button
-            String dia_inicio="30";
-            String dia_final="15";
+            String dia_inicio="15";
+            String dia_final="1";
             int fila_bandera=0;
             int columna_bandera=0;
-            for(int fila=1;fila<=6;fila++){
-                for(int columna=1;columna<=7;columna++){
+            int fila=1;
+            int columna=1;
+            boolean bandera_salida=false;
+            while(true){
+                while(true){
                     button_dia_inicio=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+columna+"]/button"));
                     if(button_dia_inicio.getText().equals(dia_inicio)){
                          fila_bandera=fila;
                          columna_bandera=columna;
-                    }
-                    System.out.println("fila: "+fila+" columna: "+columna);
+                         bandera_salida=true;
+                         break;
+                    }else if(columna==7){
+                        fila++;
+                        columna=1;
+                        break;
+                    }else{
+                        columna++;
+                    } 
+                }
+                if(bandera_salida){
+                    break;
                 }
             }
             button_dia_inicio=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+columna_bandera+"]/button"));
             button_dia_inicio.click();
 
-            // ya seleccionamos la primer fecha
+
+            //vamos a llenar el segundo calendario 
+            bandera_salida=false;
+            fila=1;
+            columna=1;
+
             second_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
             second_input_date.click();
-            for(int fila=1;fila<=5;fila++){
-                for(int columna=1;columna<=7;columna++){
+            while(true){
+                while(true){
                     button_dia_final=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+columna+"]/button"));
                     if(button_dia_final.getText().equals(dia_final)){
                          fila_bandera=fila;
                          columna_bandera=columna;
-                    }
-                    System.out.println("fila: "+fila+" columna: "+columna);
+                         bandera_salida=true;
+                         break;
+                    }else if(columna==7){
+                        fila++;
+                        columna=1;
+                        break;
+                    }else{
+                        columna++;
+                    } 
+                }
+                if(bandera_salida){
+                    break;
                 }
             }
-            System.out.println("salimos del for con posiciones columna:"+columna_bandera+" Fila: "+fila_bandera);
             button_dia_final=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+columna_bandera+"]/button"));
             button_dia_final.click();
-
-
-
-
-
-
-
-
-
-
-
-            //PERIODO1 :ESTE CODIGO HACE LA SELECCION MANUAL DEL MES 1 Y 2, Y PRECIONA EL BOTON DE GENERAR MANUALMENTE 
-            //SE INTENTARA HACERLO AUTOMATICO SINO REGRESAMOS A ESTE METODO             
-           /*  first_input_date = driver.findElement(
-                    By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
-            first_input_date.click();
-            button_last_mounth = driver
-                    .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
-            while (true) {
-                text_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
-                if (text_month.getText().equals(this.mes_inicio)) {
-                    System.out.println("por pinchar en la fecha uno ");
-                    Thread.sleep(2000);
-
-                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[2]/button"))
-                            .click();
-                    System.out.println("ya lo pinches haber que pasa ");
-                    break;
-                } else {
-                    button_last_mounth.click();
-                }
-
-            }
-
-            // aqui ya seleccionamos la primer fecha vamos a cargar la segunda
-
-            second_input_date = driver.findElement(
-                    By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
-            second_input_date.click();
-            button_last_mounth = driver
-                    .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
-            while (true) {
-                text_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div/p"));
-                if (text_month.getText().equals(this.mes_inicio)) {
-                    System.out.println("por pinchar en la fecha uno ");
-                    Thread.sleep(2000);
-
-                    driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[5]/div[3]/button"))
-                            .click();
-                    System.out.println("ya lo pinches haber que pasa ");
-                    break;
-                } else {
-                    button_last_mounth.click();
-                }
-
-            }
-            // esta seccion de aqui comentada libera el boton y genera el reporte csv
-            /*
-             * Thread.sleep(2000);
-             * button_generate_csv=driver.findElement(By.xpath(
-             * "/html/body/div[15]/div[3]/div/div[3]/button[2]"));
-             * button_generate_csv.click();
-             */
-
-             //PERIODO1FIN
         } catch (Exception e) {
             // TODO: handle exception
         }
