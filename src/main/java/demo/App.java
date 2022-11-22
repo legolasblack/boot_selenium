@@ -1,11 +1,14 @@
 package demo;
 
+
 /**
  * Hello world!
  *
  */
 public class App {
-    public static void main(String[] args) {
+  public static void main(String[] args) {
+
+      
 
         /*
          * Boot bootCredi7 = new Boot("https://credi7.ddns.net/",
@@ -20,20 +23,16 @@ public class App {
                 "https://app.nuovopay.com/",
                 "dgc@ivfinance.mx",
                 "182hemw3q",
-                "November 2021");
+                "November",
+                "2021");
 
         boot_Nuovo.setUp();
-        boot_Nuovo.login_nuovo();
+        boot_Nuovo.start_nuovo();
 
-        /*
-         * Boot boot_Nuovo = new Boot(
-         * "https://app.nuovopay.com/",
-         * "diegocrediwow@outlook.com",
-         * "rjlhqcxw0",
-         * "November 2021");
-         * 
-         * boot_Nuovo.setUp();
-         * boot_Nuovo.login_nuovo();
-         */
-    }
+        
+  
+
+      
+        }
+
 }

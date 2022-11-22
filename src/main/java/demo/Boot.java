@@ -1,5 +1,8 @@
 package demo;
 
+import java.time.LocalDate;
+import java.time.Month;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +15,8 @@ public class Boot {
     private String pass;
     private String url;
     private String mes_inicio;
-    private String mes_final;
+    private String año_inicio;
+    // private String mes_final;
 
     public Boot(String url, String user, String pass) {
         this.user = user;
@@ -20,11 +24,12 @@ public class Boot {
         this.url = url;
     }
 
-    public Boot(String url, String user, String pass, String mes) {
+    public Boot(String url, String user, String pass, String mes, String año) {
         this.user = user;
         this.pass = pass;
         this.url = url;
         this.mes_inicio = mes;
+        this.año_inicio = año;
     }
 
     public void setUp() {
@@ -40,7 +45,6 @@ public class Boot {
         } catch (Exception e) {
             System.out.println("Error_trycath1_funcion_setUp: " + e);
         }
-        System.out.println("finalizamos el setup con exito");
     }
 
     public void login_palace() {
@@ -51,8 +55,8 @@ public class Boot {
         WebElement boton_autorizacion;
         WebElement registro_ventas;
         WebElement financiamientos;
-        //WebElement first_input_date;
-        //String frasedeautorizacion = "¡ Acceso autorizado !";
+        // WebElement first_input_date;
+        // String frasedeautorizacion = "¡ Acceso autorizado !";
 
         // utilizamos clear para limpiar lo que pueda ver en los inputs
         // utilizamos sendkeys para escribir un string dentro de los inputs
@@ -80,19 +84,24 @@ public class Boot {
     public void ataqueFuerzaBruta() {
     }
 
-    public void login_nuovo() {
+    public void start_nuovo() {
         WebElement userbox = driver.findElement(By.id("outlined-email-input"));
         WebElement passbox = driver.findElement(By.id("outlined-adornment-password"));
         WebElement button_sigin = driver
                 .findElement(By.xpath("/html/body/div[1]/div/main/div/div[1]/div/div/div[2]/div/div/button"));
+
+        // declaracion de variables a utilizar una vez ya logeado
         WebElement label_devices;
         WebElement button_csv;
         WebElement label_AllDivices;
         WebElement first_input_date;
+        WebElement dia_inicio_mes;
+        WebElement button_dia_inicio;
+        WebElement button_dia_final;
         WebElement text_month;
         WebElement button_last_mounth;
         WebElement second_input_date;
-        WebElement button_generate_csv;
+        // WebElement button_generate_csv;
 
         userbox.clear();
         userbox.sendKeys(this.user);
@@ -103,28 +112,82 @@ public class Boot {
         // apartir de aqui hace la autentificacion
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        try {
-            System.out.println("Entramos arriba del divace");
+            // System.out.println("Entramos arriba del divace");
             label_devices = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[2]/div[2]/div/div/ul/a[2]"));
             label_devices.click();
             Thread.sleep(2000);
-            System.out.println("aqui terminamos el click de device");
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        button_csv = driver
-                .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
-        button_csv.click();
-        label_AllDivices = driver.findElement(By.xpath("//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]"));
-        label_AllDivices.click();
+            // System.out.println("aqui terminamos el click de device");
+            // seleccionamos el button de csv a partir de aqui tenemos que cambiar a un
+            // ciclo
+            // para generar los reportes desde el primer mes de venta de la empresa hasta la
+            // fecha actual.
 
-        try {
+            button_csv = driver
+                    .findElement(
+                            By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
+            button_csv.click();
+
+            label_AllDivices = driver.findElement(By.xpath("//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]"));
+            label_AllDivices.click();
+
+            // a partir de aqui vamos a seleccionar la primer fecha para bajar el reporte
+            // tenemos que verificar si es el ultimo mes o es un mes corriente
             Thread.sleep(2000);
-            first_input_date = driver.findElement(
+            first_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+            first_input_date.click();
+
+            //MuiPickersBasePicker-container
+            //MuiPickersBasePicker-container
+            ///html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[1]/button
+            ///html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[6]/div[2]/button
+            String dia_inicio="30";
+            String dia_final="15";
+            int fila_bandera=0;
+            int columna_bandera=0;
+            for(int fila=1;fila<=6;fila++){
+                for(int columna=1;columna<=7;columna++){
+                    button_dia_inicio=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+columna+"]/button"));
+                    if(button_dia_inicio.getText().equals(dia_inicio)){
+                         fila_bandera=fila;
+                         columna_bandera=columna;
+                    }
+                    System.out.println("fila: "+fila+" columna: "+columna);
+                }
+            }
+            button_dia_inicio=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+columna_bandera+"]/button"));
+            button_dia_inicio.click();
+
+            // ya seleccionamos la primer fecha
+            second_input_date=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
+            second_input_date.click();
+            for(int fila=1;fila<=5;fila++){
+                for(int columna=1;columna<=7;columna++){
+                    button_dia_final=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+columna+"]/button"));
+                    if(button_dia_final.getText().equals(dia_final)){
+                         fila_bandera=fila;
+                         columna_bandera=columna;
+                    }
+                    System.out.println("fila: "+fila+" columna: "+columna);
+                }
+            }
+            System.out.println("salimos del for con posiciones columna:"+columna_bandera+" Fila: "+fila_bandera);
+            button_dia_final=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+columna_bandera+"]/button"));
+            button_dia_final.click();
+
+
+
+
+
+
+
+
+
+
+
+            //PERIODO1 :ESTE CODIGO HACE LA SELECCION MANUAL DEL MES 1 Y 2, Y PRECIONA EL BOTON DE GENERAR MANUALMENTE 
+            //SE INTENTARA HACERLO AUTOMATICO SINO REGRESAMOS A ESTE METODO             
+           /*  first_input_date = driver.findElement(
                     By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
             first_input_date.click();
             button_last_mounth = driver
@@ -175,14 +238,19 @@ public class Boot {
              * button_generate_csv.click();
              */
 
+             //PERIODO1FIN
         } catch (Exception e) {
             // TODO: handle exception
         }
-        // second_input_date = driver.findElement(By.id("date-picker-inline-to-date"));
 
         System.out.println("Fin del juego");
     }
 
+    public void generadorPeriodos() {
+        LocalDate fecha = LocalDate.now();
+        Month mes = fecha.getMonth();
+        System.out.println(mes);
+    }
 }
 
 // tipos de localizadores para elemntos del dom
@@ -200,3 +268,28 @@ public class Boot {
 
 // date-picker-inline-from-date
 // date-picker-inline-to-date
+
+/*
+ * Sintaxis de XPath:
+ * 
+ * 
+ * XPath contiene la ruta del elemento situado en la página web. La sintaxis
+ * estándar para crear XPath es:
+ * 
+ * Xpath=//nombreEtiqueta[@atributo='valor']
+ * //: Selecciona el nodo actual
+ * Nombre Etiqueta: Nombre de la etiqueta del nodo en particular
+ * 
+ * @: Seleccionar atributo.
+ * atributo: nombre de atributo del nodo.
+ * valor: valor del atributo.
+ */
+
+
+/* /html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
+
+/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[1]/div[7]/button
+
+/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[2]/div[7]/button
+
+/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[2]/div[7]/button/span[1]/p */
