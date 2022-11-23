@@ -26,8 +26,10 @@ public class App {
                 "November",
                 "2021");
 
-        boot_Nuovo.setUp();
-        boot_Nuovo.start_nuovo();
+        //boot_Nuovo.setUp();
+        //boot_Nuovo.start_nuovo();
+
+        //boot_Nuovo.generadorPeriodos();
 
         
   
