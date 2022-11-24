@@ -23,13 +23,9 @@ public class App {
                 "https://app.nuovopay.com/",
                 "dgc@ivfinance.mx",
                 "182hemw3q",
-                "November",
+                "August",
                 "2021");
 
-        //boot_Nuovo.setUp();
-        //boot_Nuovo.start_nuovo();
-
-        //boot_Nuovo.generadorPeriodos();
 
         
   

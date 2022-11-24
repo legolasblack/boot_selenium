@@ -264,17 +264,15 @@ public class Boot {
         int index_año=0;
         String dia_inicio="1";
         String dia_final;
-        String año;
         LocalDate fecha = LocalDate.now();
-        Month mes = fecha.getMonth();
+        int año_actual=fecha.getYear();
+        int mes_actual = fecha.getMonthValue();
         List <Fechas_Reporte> Lista_de_reportes=new ArrayList<>();
 
 
-        //
-        System.out.println(meses.length);
-
-        //definimos el mes inicial y año inicial en el arreglo
-        for(int i=0;i<años.length;i++){
+       try {
+         //definimos el mes inicial y año inicial en el arreglo
+         for(int i=0;i<años.length;i++){
             for(int j=0;j<meses.length;j++){
                 if(this.mes_inicio.equals(meses[j])&&(this.año_inicio.equals(años[i]))){
                     index_mes=j;
@@ -285,15 +283,38 @@ public class Boot {
 
         //System.out.print("El mes inicial es: "+meses[index_mes]+" y el año inicial es: "+años[index_año]);
         while(true){
-            dia_final=numeroDeDiasMes(index_mes+1, Integer.parseInt(años[index_año]));
-            Fechas_Reporte reporte=new Fechas_Reporte(meses[index_mes], dia_inicio, dia_final, años[index_año]);
-            Lista_de_reportes.add(reporte);
-            break;
+            if(!(mes_actual==index_mes+1 && año_actual==Integer.parseInt(años[index_año]))){
+                dia_final=numeroDeDiasMes(index_mes+1, Integer.parseInt(años[index_año]));
+                Fechas_Reporte reporte=new Fechas_Reporte(meses[index_mes], dia_inicio, dia_final, años[index_año]);
+                System.out.println("vamos a ingresar a la lista a: "+meses[index_mes]);
+                Lista_de_reportes.add(reporte);
+                if(index_mes==11){
+                    index_mes=0;
+                    index_año++;
+                }else{
+                    index_mes++;
+                }
+
+            }else{
+                dia_final=String.valueOf(fecha.getDayOfMonth());
+                Fechas_Reporte reporte=new Fechas_Reporte(meses[index_mes], dia_inicio, dia_final, años[index_año]);
+                System.out.println("vamos a ingresar a la lista a: "+meses[index_mes]);
+                Lista_de_reportes.add(reporte);
+                break;
+            }
         }
 
 
+       } catch (Exception e) {
+        System.out.println("Error en el try generar periodos: "+ e);
+       }
         
         //Lista_de_reportes=null;
+        System.out.println("tamaño de la listta: "+Lista_de_reportes.size());
+
+        System.out.println("primer mes: "+Lista_de_reportes.get(0).getMes());
+        System.out.println("primer mes: "+Lista_de_reportes.get(0).getDia_inicio());
+        System.out.println("primer mes: "+Lista_de_reportes.get(0).getDia_fin());
 
         return Lista_de_reportes;
     }
