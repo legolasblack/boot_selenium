@@ -1,9 +1,7 @@
 package demo;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -11,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class Boot {
 
@@ -36,14 +35,14 @@ public class Boot {
         this.año_inicio = año;
     }
 
-    public void setUp() {
+    public void setUp() throws Exception {
 
         try {
             // con esta funcion se deve de abrir la direccion de donde se guarde google
             // driver
             System.setProperty("webdriver.chrome.driver", "./src/test/sources/drivers/chromedriver.exe");
             driver = new ChromeDriver();
-            driver.manage().window().maximize();
+            //driver.manage().window().maximize();
             driver.get(this.url);
 
         } catch (Exception e) {
@@ -88,7 +87,7 @@ public class Boot {
     public void ataqueFuerzaBruta() {
     }
 
-    public void start_nuovo() {
+    public void start_nuovo() throws Exception {
         WebElement userbox = driver.findElement(By.id("outlined-email-input"));
         WebElement passbox = driver.findElement(By.id("outlined-adornment-password"));
         WebElement button_sigin = driver
@@ -111,7 +110,7 @@ public class Boot {
         List<Fechas_Reporte> listaReportes = generadorPeriodos();
         Fechas_Reporte Reporte;
         String mes_y_año;
-        int contador=0;
+        int contador = 0;
 
         userbox.clear();
         userbox.sendKeys(this.user);
@@ -121,7 +120,7 @@ public class Boot {
 
         // apartir de aqui hace la autentificacion
         try {
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             // System.out.println("Entramos arriba del divace");
             label_devices = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[2]/div[2]/div/div/ul/a[2]"));
@@ -132,13 +131,13 @@ public class Boot {
             // ciclo
             // para generar los reportes desde el primer mes de venta de la empresa hasta la
             // fecha actual.
-            for (int z = listaReportes.size()-1; z>=0; z--) {
+            for (int z = listaReportes.size() - 1; z >= 0; z--) {
                 Reporte = listaReportes.get(z);
                 System.out.println(Reporte.getMes());
                 button_csv = driver
                         .findElement(
-                                By.xpath("//*[@id=" + "'root'"
-                                        + "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
+                                By.xpath("//*[@id=" + "'root'"+ "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
+                                        ////*[@id="root"]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button
                 button_csv.click();
 
                 label_AllDivices = driver
@@ -149,15 +148,20 @@ public class Boot {
                 // tenemos que verificar si es el ultimo mes o es un mes corriente
                 Thread.sleep(300);
                 first_input_date = driver.findElement(
-                        By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+                        By.xpath("/html/body/ div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+                        ///html/body /div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
                 first_input_date.click();
-                //aqui encontramos un problema ya que la pagina de nuovo no abre en el mes actual abre un mes asia atras
-                //y para no hacer la lectura de ajuste de mes se harcodeo a avanzar uno asia adelante por el momento 
-                //de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo que se necesite 
-                if(contador==0){
-                button_next_month=driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
-                button_next_month.click();
-                contador++;
+                // aqui encontramos un problema ya que la pagina de nuovo no abre en el mes
+                // actual abre un mes asia atras
+                // y para no hacer la lectura de ajuste de mes se harcodeo a avanzar uno asia
+                // adelante por el momento
+                // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
+                // que se necesite
+                if (contador == 0) {
+                    button_next_month = driver
+                            .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
+                    button_next_month.click();
+                    contador++;
                 }
                 Thread.sleep(200);
                 label_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div"));
@@ -299,8 +303,6 @@ public class Boot {
                 numeroDias = 30;
                 break;
             case 2:
-
-                Date anioActual = new Date();
                 if (esBisiesto(1900 + año)) {
                     numeroDias = 29;
                 } else {
@@ -313,13 +315,6 @@ public class Boot {
         return String.valueOf(numeroDias);
     }
 
-    /*
-     * Indica si un año es bisiesto o no
-     *
-     * @param anio Año
-     * 
-     * @return True = es bisiesto
-     */
     public static boolean esBisiesto(int anio) {
 
         GregorianCalendar calendar = new GregorianCalendar();
@@ -332,9 +327,12 @@ public class Boot {
     }
 
     public List generadorPeriodos() {
+        // Este metodo genera una lista de los meses con años que se designa con los
+        // parametros dentro de la clase.
+        //
         String meses[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
                 "October", "November", "December" };
-        String años[] = { "2021", "2022", "2023" };
+        String años[] = { "2021", "2022" };
         int index_mes = 0;
         int index_año = 0;
         String dia_inicio = "1";
@@ -362,7 +360,7 @@ public class Boot {
                     dia_final = numeroDeDiasMes(index_mes + 1, Integer.parseInt(años[index_año]));
                     Fechas_Reporte reporte = new Fechas_Reporte(meses[index_mes], dia_inicio, dia_final,
                             años[index_año]);
-                  //  System.out.println("vamos a ingresar a la lista a: " + meses[index_mes]);
+                    // System.out.println("vamos a ingresar a la lista a: " + meses[index_mes]);
                     Lista_de_reportes.add(reporte);
                     if (index_mes == 11) {
                         index_mes = 0;
@@ -375,7 +373,7 @@ public class Boot {
                     dia_final = String.valueOf(fecha.getDayOfMonth());
                     Fechas_Reporte reporte = new Fechas_Reporte(meses[index_mes], dia_inicio, dia_final,
                             años[index_año]);
-                   // System.out.println("vamos a ingresar a la lista a: " + meses[index_mes]);
+                    // System.out.println("vamos a ingresar a la lista a: " + meses[index_mes]);
                     Lista_de_reportes.add(reporte);
                     break;
                 }
@@ -385,14 +383,62 @@ public class Boot {
             System.out.println("Error en el try generar periodos: " + e);
         }
 
-        // Lista_de_reportes=null;
-       /*  System.out.println("tamaño de la listta: " + Lista_de_reportes.size());
-
-        System.out.println("primer mes: " + Lista_de_reportes.get(0).getMes());
-        System.out.println("primer mes: " + Lista_de_reportes.get(0).getDia_inicio());
-        System.out.println("primer mes: " + Lista_de_reportes.get(0).getDia_fin()); */
-
         return Lista_de_reportes;
+    }
+
+    public void Download_nuovo() {
+        WebElement label_reports;
+        WebElement button_divices_report;
+
+        try {
+            label_reports = driver
+                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
+            label_reports.click();
+            Thread.sleep(200);
+            button_divices_report = driver
+                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[2]/a"));
+            button_divices_report.click();
+            Thread.sleep(200);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
+    public void start_payjoy() throws Exception {
+        String merchant = "Wimo Tecnicolor";
+        String passwordMerchant = "IKFMOU";
+        WebElement inputMerchant;
+        WebElement inputMerchantPass;
+        WebElement inputUser;
+        WebElement inputPass;
+        WebElement buttonMerchant;
+        WebElement buttonLogin;
+
+        try {
+            inputMerchant = driver.findElement(By.xpath("//*[@id=" + "'login-merchant'" + "]"));
+            inputMerchantPass = driver.findElement(By.xpath("//*[@id="+"'login-password'"+"]"));
+            buttonMerchant = driver.findElement(By.xpath("//*[@id="+"'login-button'"+"]"));
+            inputMerchant.clear();
+            inputMerchant.sendKeys(merchant);
+            inputMerchantPass.clear();
+            inputMerchantPass.sendKeys(passwordMerchant);
+            buttonMerchant.click();
+            Thread.sleep(5000);
+            //dormimos hilo para esperar recarga ventana de chrome
+            inputUser=driver.findElement(By.xpath("//*[@id="+"'email'"+"]"));
+            inputPass=driver.findElement(By.xpath("//*[@id="+"'password'"+"]"));
+            buttonLogin=driver.findElement(By.xpath("//*[@id="+"'app'"+"]/main/div[2]/div/div/div/div[3]/div/form/div/div[2]/button"));
+            inputUser.clear();
+            inputUser.sendKeys(this.user);
+            inputPass.clear();
+            inputPass.sendKeys(this.pass);
+            buttonLogin.click();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
 }
