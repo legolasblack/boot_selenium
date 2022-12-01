@@ -19,12 +19,14 @@ public class Boot {
     private String url;
     private String mes_inicio;
     private String año_inicio;
+    private String compañia;
     // private String mes_final;
 
     public Boot(String url, String user, String pass) {
         this.user = user;
         this.pass = pass;
         this.url = url;
+        this.compañia=null;
     }
 
     public Boot(String url, String user, String pass, String mes, String año) {
@@ -33,6 +35,16 @@ public class Boot {
         this.url = url;
         this.mes_inicio = mes;
         this.año_inicio = año;
+        this.compañia=null;
+        
+    }
+    public Boot(String url, String user, String pass, String mes, String año, String compañia) {
+        this.user = user;
+        this.pass = pass;
+        this.url = url;
+        this.mes_inicio = mes;
+        this.año_inicio = año;
+        this.compañia=compañia;
     }
 
     public void setUp() throws Exception {
@@ -112,6 +124,32 @@ public class Boot {
         String mes_y_año;
         int contador = 0;
 
+
+        //indice para xpath de elementos 
+        String xpathLabelDevice="//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[2]/div[2]/div/div/ul/a[2]";
+        String xpathButtonCsv="//*[@id=" + "'root'"+ "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button";
+        String xpathLabelAllDivices="//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]";
+        String xpathFirstInputDate="/html/body/ div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button";
+        String xpathFirstInputDate_fiacel="/html/body/div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button";
+        String xpathButtonNext="/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]";
+        String xpathButtonNext_fiacel="/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/button[2]";
+        
+      /*   String xpathLabelMonth="//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]";
+        String xpathLabelAllDivices="//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]";
+        String xpathLabelAllDivices="//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]";
+        String xpathLabelAllDivices="//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]"; */
+
+
+        //variables declaradas nivel 1
+        String dia_inicio = Reporte.getDia_inicio();
+        String dia_final = Reporte.getDia_fin();
+        int fila_bandera = 0;
+        int columna_bandera = 0;
+        int fila = 1;
+        int columna = 1;
+        boolean bandera_salida = false;
+        //termina el indice de xpath
+        
         userbox.clear();
         userbox.sendKeys(this.user);
         passbox.clear();
@@ -123,7 +161,7 @@ public class Boot {
             Thread.sleep(5000);
             // System.out.println("Entramos arriba del divace");
             label_devices = driver
-                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[2]/div[2]/div/div/ul/a[2]"));
+                    .findElement(By.xpath(xpathLabelDevice));
             label_devices.click();
             Thread.sleep(1000);
             // System.out.println("aqui terminamos el click de device");
@@ -136,20 +174,25 @@ public class Boot {
                 System.out.println(Reporte.getMes());
                 button_csv = driver
                         .findElement(
-                                By.xpath("//*[@id=" + "'root'"+ "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
+                                By.xpath(xpathButtonCsv));
                                         ////*[@id="root"]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button
                 button_csv.click();
 
                 label_AllDivices = driver
-                        .findElement(By.xpath("//*[@id=" + "'csv-download-menu'" + "]/div[3]/ul/li[1]"));
+                        .findElement(By.xpath(xpathLabelAllDivices));
                 label_AllDivices.click();
 
                 // a partir de aqui vamos a seleccionar la primer fecha para bajar el reporte
                 // tenemos que verificar si es el ultimo mes o es un mes corriente
                 Thread.sleep(300);
-                first_input_date = driver.findElement(
-                        By.xpath("/html/body/ div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
-                        ///html/body /div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
+                if(this.compañia.equals("fiacel")){
+                    first_input_date = driver.findElement(
+                            By.xpath(xpathFirstInputDate_fiacel));
+                    }else{
+                        first_input_date = driver.findElement(
+                            By.xpath(xpathFirstInputDate));
+                    }
+                    
                 first_input_date.click();
                 // aqui encontramos un problema ya que la pagina de nuovo no abre en el mes
                 // actual abre un mes asia atras
@@ -158,8 +201,13 @@ public class Boot {
                 // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
                 // que se necesite
                 if (contador == 0) {
-                    button_next_month = driver
-                            .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
+                    if (this.compañia.equals("fiacel")) {
+                        button_next_month = driver
+                                .findElement(By.xpath(xpathButtonNext_fiacel));
+                            } else {
+                                button_next_month = driver
+                                        .findElement(By.xpath(xpathButtonNext));          
+                    }   
                     button_next_month.click();
                     contador++;
                 }
@@ -169,14 +217,11 @@ public class Boot {
                 // mes_y_año="October 2022";
                 button_last_month = driver
                         .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
-                // corregir esta seccion de variables(redireccionar a zona de variables)
-                String dia_inicio = Reporte.getDia_inicio();
-                String dia_final = Reporte.getDia_fin();
-                int fila_bandera = 0;
-                int columna_bandera = 0;
-                int fila = 1;
-                int columna = 1;
-                boolean bandera_salida = false;
+                
+                
+                        // corregir esta seccion de variables(redireccionar a zona de variables)
+                //nivel1
+
                 while (true) {
                     while (true) {
                         while (true) {
@@ -276,7 +321,7 @@ public class Boot {
             }
             // hasta aqui termina el ciclo
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println("Error: "+e);
         }
 
         System.out.println("Fin del juego");
