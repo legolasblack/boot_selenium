@@ -1,5 +1,9 @@
 package demo;
 
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 /**
  * Hello world!
  *
@@ -7,13 +11,14 @@ package demo;
 public class App {
         public static void main(String[] args) throws Exception {
 
-               /*  Boot bootPayJoy =new Boot("https://www.payjoy.com/merchant2/#",
+                Boot bootPayJoy =new Boot("https://www.payjoy.com/merchant2/#",
                  "lmar@wimocomunica.com",
                  "Polar4242."
                  );
-
+                 String pathExcel=JOptionPane.showInputDialog(("Introduce la direccion del archivo Excel"));
                  bootPayJoy.setUp();
-                 bootPayJoy.start_payjoy(); */
+                 //bootPayJoy.start_payjoy("C:/Users/zhifs/OneDrive/Desktop/pruebasapachepoi.xlsx");
+                 bootPayJoy.start_payjoy(pathExcel);
 
                /*  Boot boot_Nuovo_credi7 = new Boot(
                                 "https://app.nuovopay.com/",
@@ -22,12 +27,12 @@ public class App {
                                 "November",
                                 "2021");
  */
-                Boot boot_Nuovo_fiacel = new Boot(
+              /*   Boot boot_Nuovo_fiacel = new Boot(
                                 "https://app.nuovopay.com/",
                                 "diegofiacel@outlook.com",
                                 "ba0mdgl4p",
                                 "July",
-                                "2021");
+                                "2021"); */
 
                /*  Boot boot_Nuovo_crediwow = new Boot(
                                 "https://app.nuovopay.com/",
@@ -59,8 +64,8 @@ public class App {
 
                 /* boot_Nuovo_credi7.setUp();
                 boot_Nuovo_credi7.start_nuovo(); */
-                boot_Nuovo_fiacel.setUp();
-                boot_Nuovo_fiacel.start_nuovo();
+                /* boot_Nuovo_fiacel.setUp();
+                boot_Nuovo_fiacel.start_nuovo(); */
                 /* boot_Nuovo_crediwow.setUp();
                 boot_Nuovo_crediwow.start_nuovo();
                 boot_Nuovo_wimopay.setUp();
@@ -69,8 +74,6 @@ public class App {
                 boot_Nuovo_celufacil.start_nuovo();
                 boot_Nuovo_confiacel.setUp();
                 boot_Nuovo_confiacel.start_nuovo(); */
-
-                System.out.println("Exito...............................Ready");
 
         }
 

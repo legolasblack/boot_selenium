@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class Boot {
 
@@ -42,7 +43,7 @@ public class Boot {
             // driver
             System.setProperty("webdriver.chrome.driver", "./src/test/sources/drivers/chromedriver.exe");
             driver = new ChromeDriver();
-            //driver.manage().window().maximize();
+            driver.manage().window().maximize();
             driver.get(this.url);
 
         } catch (Exception e) {
@@ -136,8 +137,9 @@ public class Boot {
                 System.out.println(Reporte.getMes());
                 button_csv = driver
                         .findElement(
-                                By.xpath("//*[@id=" + "'root'"+ "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
-                                        ////*[@id="root"]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button
+                                By.xpath("//*[@id=" + "'root'"
+                                        + "]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button"));
+                //// *[@id="root"]/div/main/div[1]/div[2]/div[1]/div[2]/div/div/button
                 button_csv.click();
 
                 label_AllDivices = driver
@@ -149,7 +151,8 @@ public class Boot {
                 Thread.sleep(300);
                 first_input_date = driver.findElement(
                         By.xpath("/html/body/ div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
-                        ///html/body /div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
+                /// html/body
+                /// /div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
                 first_input_date.click();
                 // aqui encontramos un problema ya que la pagina de nuovo no abre en el mes
                 // actual abre un mes asia atras
@@ -282,6 +285,116 @@ public class Boot {
         System.out.println("Fin del juego");
     }
 
+    public void Download_nuovo() {
+        WebElement label_reports;
+        WebElement button_divices_report;
+
+        try {
+            label_reports = driver
+                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
+            label_reports.click();
+            Thread.sleep(200);
+            button_divices_report = driver
+                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[2]/a"));
+            button_divices_report.click();
+            Thread.sleep(200);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
+    public void start_payjoy(String direccionExcel) throws Exception {
+        String merchant = "Wimo Tecnicolor";
+        String passwordMerchant = "IKFMOU";
+        WebElement inputMerchant;
+        WebElement inputMerchantPass;
+        WebElement inputUser;
+        WebElement inputPass;
+        WebElement buttonMerchant;
+        WebElement buttonLogin;
+        WebElement buttonAceptarPago;
+        WebElement inputIdTelefono;
+        WebElement buttonIngresar;
+        WebElement labelNumTelefono;
+        List listaIdDivaces;
+        // realizamos un limppiado ya que al pegar la direccion en el joption pane se
+        // ingresa con comillas y las queremos eliminar
+        // para obterner el path y no genere un error de no encuentra el archivo
+        String direccionExcelLimpia = direccionExcel.replace("\"", "");
+        ExcelManager excelManager = new ExcelManager(direccionExcelLimpia, "Hoja1");
+        try {
+
+            listaIdDivaces = excelManager.CreateList();
+            inputMerchant = driver.findElement(By.xpath("//*[@id=" + "'login-merchant'" + "]"));
+            inputMerchantPass = driver.findElement(By.xpath("//*[@id=" + "'login-password'" + "]"));
+            buttonMerchant = driver.findElement(By.xpath("//*[@id=" + "'login-button'" + "]"));
+            inputMerchant.clear();
+            inputMerchant.sendKeys(merchant);
+            inputMerchantPass.clear();
+            inputMerchantPass.sendKeys(passwordMerchant);
+            buttonMerchant.click();
+            Thread.sleep(3000);
+            // dormimos hilo para esperar recarga ventana de chrome
+            inputUser = driver.findElement(By.xpath("//*[@id=" + "'email'" + "]"));
+            inputPass = driver.findElement(By.xpath("//*[@id=" + "'password'" + "]"));
+            buttonLogin = driver.findElement(
+                    By.xpath("//*[@id=" + "'app'" + "]/main/div[2]/div/div/div/div[3]/div/form/div/div[2]/button"));
+            inputUser.clear();
+            inputUser.sendKeys(this.user);
+            inputPass.clear();
+            inputPass.sendKeys(this.pass);
+            buttonLogin.click();
+            Thread.sleep(4000);
+            // buttonAceptarPago=driver.findElement(By.xpath("//*[@id="+"'accept'"+"]"));
+            for (int i = 0; i < listaIdDivaces.size(); i++) {
+                buttonAceptarPago = driver.findElement(By.id("accept"));
+                Thread.sleep(2000);
+                buttonAceptarPago.click();
+                Thread.sleep(2000);
+                inputIdTelefono = driver.findElement(By.id("deviceTagOrPhoneNumberInput"));
+                buttonIngresar = driver.findElement(By.id("enterDeviceTagOrPhoneNumber"));
+
+                inputIdTelefono.clear();
+                inputIdTelefono.sendKeys(listaIdDivaces.get(i).toString());
+                // inputIdTelefono.sendKeys(listaDivaces[i]); //tag muerto
+                // inputIdTelefono.sendKeys("DDQDSFP");
+                // inputIdTelefono.sendKeys("DWRNNXJ");
+                buttonIngresar.click();
+                Thread.sleep(1000);
+                labelNumTelefono = driver
+                        .findElement(By.xpath("//*[@id=" + "'deviceInfo'" + "]/div[1]/table/tbody/tr[3]/td[2]"));
+                // System.out.println("esta desplegado? " + labelNumTelefono.isDisplayed());
+
+                // validacion para saber si el elemnto esta desplegado o no;
+                if (labelNumTelefono.isDisplayed()) {
+                    System.out.println("Numero de telefono a copiar: " + labelNumTelefono.getText());
+                } else {
+                    System.out.println(
+                            "El numero telefono no esta disponible para el Id: " + listaIdDivaces.get(i).toString());
+                }
+                driver.navigate().back();
+            }
+
+            driver.quit();
+            /*
+             * if(buttonCancelar==null){
+             * System.out.println("la variable no esta ");
+             * }else{
+             * System.out.println("la variable si tiene contenido");
+             * }
+             */
+
+        } catch (Exception e) {
+
+            System.out.println("Error en boot payjoy: " + e);
+            JOptionPane.showMessageDialog(null, "Error: "+e.getMessage(), "Error path", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    // funcione utilitarias para las principales funciones
+
     public static String numeroDeDiasMes(int mes, int año) {
 
         int numeroDias = -1;
@@ -384,61 +497,6 @@ public class Boot {
         }
 
         return Lista_de_reportes;
-    }
-
-    public void Download_nuovo() {
-        WebElement label_reports;
-        WebElement button_divices_report;
-
-        try {
-            label_reports = driver
-                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
-            label_reports.click();
-            Thread.sleep(200);
-            button_divices_report = driver
-                    .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[2]/a"));
-            button_divices_report.click();
-            Thread.sleep(200);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-
-    }
-
-    public void start_payjoy() throws Exception {
-        String merchant = "Wimo Tecnicolor";
-        String passwordMerchant = "IKFMOU";
-        WebElement inputMerchant;
-        WebElement inputMerchantPass;
-        WebElement inputUser;
-        WebElement inputPass;
-        WebElement buttonMerchant;
-        WebElement buttonLogin;
-
-        try {
-            inputMerchant = driver.findElement(By.xpath("//*[@id=" + "'login-merchant'" + "]"));
-            inputMerchantPass = driver.findElement(By.xpath("//*[@id="+"'login-password'"+"]"));
-            buttonMerchant = driver.findElement(By.xpath("//*[@id="+"'login-button'"+"]"));
-            inputMerchant.clear();
-            inputMerchant.sendKeys(merchant);
-            inputMerchantPass.clear();
-            inputMerchantPass.sendKeys(passwordMerchant);
-            buttonMerchant.click();
-            Thread.sleep(5000);
-            //dormimos hilo para esperar recarga ventana de chrome
-            inputUser=driver.findElement(By.xpath("//*[@id="+"'email'"+"]"));
-            inputPass=driver.findElement(By.xpath("//*[@id="+"'password'"+"]"));
-            buttonLogin=driver.findElement(By.xpath("//*[@id="+"'app'"+"]/main/div[2]/div/div/div/div[3]/div/form/div/div[2]/button"));
-            inputUser.clear();
-            inputUser.sendKeys(this.user);
-            inputPass.clear();
-            inputPass.sendKeys(this.pass);
-            buttonLogin.click();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
     }
 
 }
