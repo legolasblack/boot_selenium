@@ -20,6 +20,7 @@ public class Boot {
     private String url;
     private String mes_inicio;
     private String año_inicio;
+    private int reportCount;
     // private String mes_final;
 
     public Boot(String url, String user, String pass) {
@@ -111,7 +112,7 @@ public class Boot {
         List<Fechas_Reporte> listaReportes = generadorPeriodos();
         Fechas_Reporte Reporte;
         String mes_y_año;
-        int contador = 0;
+        int verificardorprimerreporte = 0;
 
         userbox.clear();
         userbox.sendKeys(this.user);
@@ -160,11 +161,11 @@ public class Boot {
                 // adelante por el momento
                 // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
                 // que se necesite
-                if (contador == 0) {
+                if (verificardorprimerreporte == 0) {
                     button_next_month = driver
                             .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
                     button_next_month.click();
-                    contador++;
+                    verificardorprimerreporte++;
                 }
                 Thread.sleep(200);
                 label_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div"));
@@ -272,9 +273,10 @@ public class Boot {
                 button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
 
                 // boton generador
-                // button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+                 //button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
 
                 button_generate_csv.click();
+                reportCount++;
 
             }
             // hasta aqui termina el ciclo
@@ -285,21 +287,44 @@ public class Boot {
         System.out.println("Fin del juego");
     }
 
-    public void Download_nuovo() {
+    public void Download_nuovo() throws Exception{
         WebElement label_reports;
         WebElement button_divices_report;
+        WebElement tableBody;
+        WebElement linkDownload;
+        List <WebElement>rowList=new ArrayList<>();
+        List <WebElement>columnlList=new ArrayList<>();
 
         try {
+            Thread.sleep(60000);
             label_reports = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
             label_reports.click();
-            Thread.sleep(200);
+            Thread.sleep(500);
             button_divices_report = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[2]/a"));
             button_divices_report.click();
-            Thread.sleep(200);
+            Thread.sleep(500);
+            tableBody=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div/div/div/table/tbody"));
+            System.out.println(tableBody.isDisplayed());
+            rowList=tableBody.findElements(By.tagName("tr"));
+
+
+
+            System.out.println("tamaño de la tabla: "+ rowList.size());
+            columnlList=rowList.get(0).findElements(By.tagName("td"));
+            System.out.println("numero de columnas: "+columnlList.size());
+            linkDownload=columnlList.get(columnlList.size()-1).findElement(By.tagName("a"));
+            System.out.println("si esta el link: "+linkDownload.isDisplayed());
+            if(linkDownload.isDisplayed()&&linkDownload!=null){
+                //linkDownload.click();
+                System.out.println("clickDownload");
+            }else{
+                System.out.println("algo fallo");
+            }
+
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Error en el metodo download: "+ e.getMessage());
         }
 
     }
@@ -388,7 +413,7 @@ public class Boot {
         } catch (Exception e) {
 
             System.out.println("Error en boot payjoy: " + e);
-            JOptionPane.showMessageDialog(null, "Error: "+e.getMessage(), "Error path", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error path", JOptionPane.ERROR_MESSAGE);
         }
 
     }

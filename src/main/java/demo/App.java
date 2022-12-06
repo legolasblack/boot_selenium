@@ -11,22 +11,27 @@ import javax.swing.JOptionPane;
 public class App {
         public static void main(String[] args) throws Exception {
 
-                Boot bootPayJoy =new Boot("https://www.payjoy.com/merchant2/#",
+             /*    Boot bootPayJoy =new Boot("https://www.payjoy.com/merchant2/#",
                  "lmar@wimocomunica.com",
                  "Polar4242."
                  );
                  String pathExcel=JOptionPane.showInputDialog(("Introduce la direccion del archivo Excel"));
                  bootPayJoy.setUp();
                  //bootPayJoy.start_payjoy("C:/Users/zhifs/OneDrive/Desktop/pruebasapachepoi.xlsx");
-                 bootPayJoy.start_payjoy(pathExcel);
+                 bootPayJoy.start_payjoy(pathExcel); */
 
-               /*  Boot boot_Nuovo_credi7 = new Boot(
+                Boot boot_Nuovo_credi7 = new Boot(
                                 "https://app.nuovopay.com/",
                                 "dgc@ivfinance.mx",
                                 "182hemw3q",
                                 "November",
-                                "2021");
- */
+                                "2022");//el año real es 2021
+
+                                boot_Nuovo_credi7.setUp();
+                                boot_Nuovo_credi7.start_nuovo();
+                                boot_Nuovo_credi7.Download_nuovo();
+                                
+
               /*   Boot boot_Nuovo_fiacel = new Boot(
                                 "https://app.nuovopay.com/",
                                 "diegofiacel@outlook.com",
