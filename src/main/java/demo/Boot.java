@@ -291,12 +291,15 @@ public class Boot {
         WebElement label_reports;
         WebElement button_divices_report;
         WebElement tableBody;
+        WebElement table;
         WebElement linkDownload;
+        WebElement buttonNextReports;
         List <WebElement>rowList=new ArrayList<>();
         List <WebElement>columnlList=new ArrayList<>();
+        int rowindex=0;
 
         try {
-            Thread.sleep(60000);
+           // Thread.sleep(60000);
             label_reports = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
             label_reports.click();
@@ -308,21 +311,40 @@ public class Boot {
             tableBody=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div/div/div/table/tbody"));
             System.out.println(tableBody.isDisplayed());
             rowList=tableBody.findElements(By.tagName("tr"));
+            for(int i=0;i<=this.reportCount;i++){
+           // for(int i=0;i<=14;i++){
+                if(rowindex<10){
+                    columnlList=rowList.get(rowindex).findElements(By.tagName("td"));
+                    linkDownload=columnlList.get(columnlList.size()-1).findElement(By.tagName("a"));
+                    linkDownload.click();
+                    System.out.println("Idreport: "+columnlList.get(0).getText());
+                    rowindex++;
+                }else{
+                    buttonNextReports=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[2]/nav/ul/li[4]/button"));
+                    buttonNextReports.click();
+                    Thread.sleep(500);
+                    rowindex=0;
+                    table=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[1]/div/div/table"));
+                    tableBody=table.findElement(By.tagName("tbody"));
+                    rowList=tableBody.findElements(By.tagName("tr")) ;
+                }
+
+            }
 
 
 
-            System.out.println("tamaño de la tabla: "+ rowList.size());
-            columnlList=rowList.get(0).findElements(By.tagName("td"));
+
+
+            
+           /*  System.out.println("tamaño de la tabla: "+ rowList.size());
             System.out.println("numero de columnas: "+columnlList.size());
-            linkDownload=columnlList.get(columnlList.size()-1).findElement(By.tagName("a"));
             System.out.println("si esta el link: "+linkDownload.isDisplayed());
+            System.out.println("Numero de reportes generados: "+ this.reportCount);
             if(linkDownload.isDisplayed()&&linkDownload!=null){
-                //linkDownload.click();
                 System.out.println("clickDownload");
             }else{
                 System.out.println("algo fallo");
-            }
-
+            } */
         } catch (Exception e) {
             System.out.println("Error en el metodo download: "+ e.getMessage());
         }
