@@ -1,6 +1,14 @@
 package demo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -22,6 +30,9 @@ public class Boot {
     private String año_inicio;
     private int reportCount;
     // private String mes_final;
+
+    public Boot() {
+    }
 
     public Boot(String url, String user, String pass) {
         this.user = user;
@@ -273,7 +284,7 @@ public class Boot {
                 button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
 
                 // boton generador
-                 //button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+                // button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
 
                 button_generate_csv.click();
                 reportCount++;
@@ -287,19 +298,19 @@ public class Boot {
         System.out.println("Fin del juego");
     }
 
-    public void Download_nuovo() throws Exception{
+    public void Download_nuovo() throws Exception {
         WebElement label_reports;
         WebElement button_divices_report;
         WebElement tableBody;
         WebElement table;
         WebElement linkDownload;
         WebElement buttonNextReports;
-        List <WebElement>rowList=new ArrayList<>();
-        List <WebElement>columnlList=new ArrayList<>();
-        int rowindex=0;
+        List<WebElement> rowList = new ArrayList<>();
+        List<WebElement> columnlList = new ArrayList<>();
+        int rowindex = 0;
 
         try {
-           // Thread.sleep(60000);
+            // Thread.sleep(60000);
             label_reports = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
             label_reports.click();
@@ -308,45 +319,45 @@ public class Boot {
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[2]/div[2]/a"));
             button_divices_report.click();
             Thread.sleep(500);
-            tableBody=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div/div/div/table/tbody"));
+            tableBody = driver.findElement(
+                    By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[3]/div/div/div/div/table/tbody"));
             System.out.println(tableBody.isDisplayed());
-            rowList=tableBody.findElements(By.tagName("tr"));
-            for(int i=0;i<=this.reportCount;i++){
-           // for(int i=0;i<=14;i++){
-                if(rowindex<10){
-                    columnlList=rowList.get(rowindex).findElements(By.tagName("td"));
-                    linkDownload=columnlList.get(columnlList.size()-1).findElement(By.tagName("a"));
+            rowList = tableBody.findElements(By.tagName("tr"));
+            for (int i = 0; i <= this.reportCount; i++) {
+                // for(int i=0;i<=14;i++){
+                if (rowindex < 10) {
+                    columnlList = rowList.get(rowindex).findElements(By.tagName("td"));
+                    linkDownload = columnlList.get(columnlList.size() - 1).findElement(By.tagName("a"));
                     linkDownload.click();
-                    System.out.println("Idreport: "+columnlList.get(0).getText());
+                    System.out.println("Idreport: " + columnlList.get(0).getText());
                     rowindex++;
-                }else{
-                    buttonNextReports=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[2]/nav/ul/li[4]/button"));
+                } else {
+                    buttonNextReports = driver.findElement(By
+                            .xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[3]/div/div[2]/nav/ul/li[4]/button"));
                     buttonNextReports.click();
                     Thread.sleep(500);
-                    rowindex=0;
-                    table=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[1]/div/div/table"));
-                    tableBody=table.findElement(By.tagName("tbody"));
-                    rowList=tableBody.findElements(By.tagName("tr")) ;
+                    rowindex = 0;
+                    table = driver.findElement(
+                            By.xpath("//*[@id=" + "'root'" + "]/div/main/div[1]/div[3]/div/div[1]/div/div/table"));
+                    tableBody = table.findElement(By.tagName("tbody"));
+                    rowList = tableBody.findElements(By.tagName("tr"));
                 }
 
             }
 
-
-
-
-
-            
-           /*  System.out.println("tamaño de la tabla: "+ rowList.size());
-            System.out.println("numero de columnas: "+columnlList.size());
-            System.out.println("si esta el link: "+linkDownload.isDisplayed());
-            System.out.println("Numero de reportes generados: "+ this.reportCount);
-            if(linkDownload.isDisplayed()&&linkDownload!=null){
-                System.out.println("clickDownload");
-            }else{
-                System.out.println("algo fallo");
-            } */
+            /*
+             * System.out.println("tamaño de la tabla: "+ rowList.size());
+             * System.out.println("numero de columnas: "+columnlList.size());
+             * System.out.println("si esta el link: "+linkDownload.isDisplayed());
+             * System.out.println("Numero de reportes generados: "+ this.reportCount);
+             * if(linkDownload.isDisplayed()&&linkDownload!=null){
+             * System.out.println("clickDownload");
+             * }else{
+             * System.out.println("algo fallo");
+             * }
+             */
         } catch (Exception e) {
-            System.out.println("Error en el metodo download: "+ e.getMessage());
+            System.out.println("Error en el metodo download: " + e.getMessage());
         }
 
     }
@@ -365,6 +376,8 @@ public class Boot {
         WebElement buttonIngresar;
         WebElement labelNumTelefono;
         List listaIdDivaces;
+        String row[];
+        List<String[]> resultList = new ArrayList<>();
         // realizamos un limppiado ya que al pegar la direccion en el joption pane se
         // ingresa con comillas y las queremos eliminar
         // para obterner el path y no genere un error de no encuentra el archivo
@@ -415,13 +428,19 @@ public class Boot {
 
                 // validacion para saber si el elemnto esta desplegado o no;
                 if (labelNumTelefono.isDisplayed()) {
-                    System.out.println("Numero de telefono a copiar: " + labelNumTelefono.getText());
+                    row = new String[] { listaIdDivaces.get(i).toString(), labelNumTelefono.getText() };
+                    // System.out.println("Numero de telefono a copiar: " +
+                    // labelNumTelefono.getText());
                 } else {
+                    row = new String[] { listaIdDivaces.get(i).toString(), "Terminado" };
                     System.out.println(
                             "El numero telefono no esta disponible para el Id: " + listaIdDivaces.get(i).toString());
                 }
+                resultList.add(row);
                 driver.navigate().back();
             }
+
+            printCsv(resultList);
 
             driver.quit();
             /*
@@ -440,7 +459,83 @@ public class Boot {
 
     }
 
+    public void package_nuovo() {
+
+    }
     // funcione utilitarias para las principales funciones
+
+    public void printCsv(List<String[]> dataList) throws Exception {
+
+        try {
+            String currentPath = Paths.get("").toAbsolutePath().normalize().toString();
+            String downloadFolder = "/Reportes";
+            String downloadPath = currentPath + downloadFolder;
+            String row="";
+            File newFolder = new File(downloadPath);
+            boolean dirCreated = newFolder.mkdir();
+
+            // get current time
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-M-dd_HH-mm-ss");
+            LocalDateTime now = LocalDateTime.now();
+            // System.out.println(dtf.format(now));
+            String fileName = "Reporte_" + dtf.format(now) + ".csv";
+
+            // Whatever the file path is.
+            File statText = new File(downloadPath + "/" + fileName);
+            FileOutputStream is = new FileOutputStream(statText);
+            OutputStreamWriter osw = new OutputStreamWriter(is);
+            Writer w = new BufferedWriter(osw);
+
+            /*
+             * for (int i = 0; i < 200; i++) {
+             * w.write(name+"\n");
+             * }
+             * w.close();
+             * } catch (Exception e) {
+             * System.err.println("Problem writing to the file " + e);
+             * }
+             */
+            for (int i = 0; i < dataList.size(); i++) {
+                for(int j =0;j< dataList.get(i).length;j++){
+                    row=row+dataList.get(i)[j]+",";
+                }
+                w.write(row + "\n");
+                row="";
+            }
+            w.close();
+        } catch (Exception e) {
+            System.err.println("Problem writing to the file " + e);
+        }
+        /*
+         * File fichero = new File(
+         * "C:/Users/zhifs/OneDrive/Desktop/boot_selenium/src/main/java/demo/lectura.txt"
+         * );
+         * Scanner scan = null;
+         * 
+         * try {
+         * System.out.println("leemos el archivo :");
+         * scan = new Scanner(fichero);
+         * 
+         * while (scan.hasNextLine()) {
+         * String linea = scan.nextLine();
+         * System.out.println(linea);
+         * }
+         * 
+         * } catch (Exception e) {
+         * System.out.println("Error en el metodo lectura de archivo: " +
+         * e.getMessage());
+         * } finally {
+         * try {
+         * if (scan != null) {
+         * scan.close();
+         * }
+         * } catch (Exception e) {
+         * // TODO: handle exception
+         * }
+         * }
+         */
+
+    }
 
     public static String numeroDeDiasMes(int mes, int año) {
 
