@@ -270,10 +270,10 @@ public class Boot {
                 button_dia_final.click();
 
                 // boton cancelar
-                button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
+               // button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
 
                 // boton generador
-                 //button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+                button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
 
                 button_generate_csv.click();
                 reportCount++;
@@ -299,7 +299,7 @@ public class Boot {
         int rowindex=0;
 
         try {
-           // Thread.sleep(60000);
+            Thread.sleep(60000);
             label_reports = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
             label_reports.click();

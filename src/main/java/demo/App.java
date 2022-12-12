@@ -57,7 +57,7 @@ public class App {
                 Boot boot_Nuovo_celufacil = new Boot(
                                 "https://app.nuovopay.com/",
                                 "diegocelufacil@outlook.com",
-                                "kgns35bl",
+                                "xkgns35bl",
                                 "January",
                                 "2022");
 
