@@ -270,10 +270,10 @@ public class Boot {
                 button_dia_final.click();
 
                 // boton cancelar
-               // button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
+                button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
 
                 // boton generador
-                button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+                //button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
 
                 button_generate_csv.click();
                 reportCount++;
@@ -294,8 +294,10 @@ public class Boot {
         WebElement table;
         WebElement linkDownload;
         WebElement buttonNextReports;
+        WebElement buttonsChangePage;
         List <WebElement>rowList=new ArrayList<>();
         List <WebElement>columnlList=new ArrayList<>();
+        List <WebElement>buttonsList=new ArrayList<>();
         int rowindex=0;
 
         try {
@@ -320,7 +322,12 @@ public class Boot {
                     System.out.println("Idreport: "+columnlList.get(0).getText());
                     rowindex++;
                 }else{
-                    buttonNextReports=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[2]/nav/ul/li[4]/button"));
+                    //En sta seccion se implementa una lista para leer de manera dinamica el ultimo boton ya que se autogeneran 
+                    //dependiendo de la cantidad de reportes y se mueve el xpath si lo dejamos fijo 
+                    //se opto por hacer una lectura dinamica de los botnos y acceder a la ultima posicion del mismo
+                    buttonsChangePage=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[2]/nav/ul"));
+                    buttonsList=buttonsChangePage.findElements(By.tagName("button")); 
+                    buttonNextReports=buttonsList.get(buttonsList.size()-1);
                     buttonNextReports.click();
                     Thread.sleep(500);
                     rowindex=0;
