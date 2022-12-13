@@ -301,7 +301,7 @@ public class Boot {
         int rowindex=0;
 
         try {
-            Thread.sleep(60000);
+          //  Thread.sleep(60000);
             label_reports = driver
                     .findElement(By.xpath("//*[@id=" + "'root'" + "]/div/div[1]/div/ul/div[3]/div[2]/div/div/ul/a[1]"));
             label_reports.click();
@@ -313,7 +313,7 @@ public class Boot {
             tableBody=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div/div/div/table/tbody"));
             System.out.println(tableBody.isDisplayed());
             rowList=tableBody.findElements(By.tagName("tr"));
-            for(int i=0;i<=this.reportCount;i++){
+            for(int i=0;i<this.reportCount;i++){
            // for(int i=0;i<=14;i++){
                 if(rowindex<10){
                     columnlList=rowList.get(rowindex).findElements(By.tagName("td"));
@@ -334,6 +334,7 @@ public class Boot {
                     table=driver.findElement(By.xpath("//*[@id="+"'root'"+"]/div/main/div[1]/div[3]/div/div[1]/div/div/table"));
                     tableBody=table.findElement(By.tagName("tbody"));
                     rowList=tableBody.findElements(By.tagName("tr")) ;
+                    i--;//bajamos en una vuelta el contador porque al entrar en el else se desperdicia una vuelta del for y baja un reporte menos de lo que deberia
                 }
 
             }
