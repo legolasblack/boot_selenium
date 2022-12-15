@@ -71,18 +71,18 @@ public class App {
                 boot_Nuovo_credi7.setUp();
                 boot_Nuovo_credi7.start_nuovo();
                 boot_Nuovo_credi7.Download_nuovo();
-/* 
+ 
                 boot_Nuovo_crediwow.setUp();
                 boot_Nuovo_crediwow.start_nuovo();
-               // boot_Nuovo_crediwow.Download_nuovo();
+                boot_Nuovo_crediwow.Download_nuovo();
 
                 boot_Nuovo_wimopay.setUp();
                 boot_Nuovo_wimopay.start_nuovo();
-              //  boot_Nuovo_wimopay.Download_nuovo();
+                boot_Nuovo_wimopay.Download_nuovo();
 
                 boot_Nuovo_celufacil.setUp();
                 boot_Nuovo_celufacil.start_nuovo();
-               // boot_Nuovo_celufacil.Download_nuovo();*/
+                boot_Nuovo_celufacil.Download_nuovo();
 
                 boot_Nuovo_confiacel.setUp();
                 boot_Nuovo_confiacel.start_nuovo();
