@@ -42,7 +42,7 @@ public class Boot {
         try {
             // con esta funcion se deve de abrir la direccion de donde se guarde google
             // driver
-            System.setProperty("webdriver.chrome.driver", "./src/test/sources/drivers/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "./src/test/sources/drivers/chromedriver_latest.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();
             driver.get(this.url);
