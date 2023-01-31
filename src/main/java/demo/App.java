@@ -84,7 +84,7 @@ public class App {
                 boot_Nuovo_celufacil.start_nuovo();
                 boot_Nuovo_celufacil.Download_nuovo();
 
-                boot_Nuovo_confiacel.setUp();
+                 boot_Nuovo_confiacel.setUp();
                 boot_Nuovo_confiacel.start_nuovo();
                 boot_Nuovo_confiacel.Download_nuovo(); 
 

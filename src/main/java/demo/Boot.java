@@ -162,9 +162,12 @@ public class Boot {
                 // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
                 // que se necesite
                 if (verificardorprimerreporte == 0) {
+                    if(driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]")).isEnabled()){
                     button_next_month = driver
                             .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
-                    button_next_month.click();
+                            ///html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]
+                        button_next_month.click();
+                    }
                     verificardorprimerreporte++;
                 }
                 Thread.sleep(200);
@@ -280,11 +283,11 @@ public class Boot {
 
             }
             // hasta aqui termina el ciclo
+            
+                    System.out.println("Se han generado los reportes satisfactoriamente.");
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Error en funcion Start nuevo"+e.getMessage());
         }
-
-        System.out.println("Fin del juego");
     }
 
     public void Download_nuovo() throws Exception{
