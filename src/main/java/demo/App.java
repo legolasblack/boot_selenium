@@ -19,9 +19,13 @@ public class App {
                                 "2021");
 
                 boot_Nuovo_fiacel.setUp();
-                boot_Nuovo_fiacel.start_nuovo();
+                boot_Nuovo_fiacel.start_nuovo_fiacel();
                 boot_Nuovo_fiacel.Download_nuovo();
 
+
+              
+                
         }
+
 
 }

@@ -89,7 +89,7 @@ public class Boot {
     public void ataqueFuerzaBruta() {
     }
 
-    public void start_nuovo() throws Exception {
+    public void start_nuovo_fiacel() throws Exception {
         WebElement userbox = driver.findElement(By.id("outlined-email-input"));
         WebElement passbox = driver.findElement(By.id("outlined-adornment-password"));
         WebElement button_sigin = driver
@@ -151,9 +151,8 @@ public class Boot {
                 // tenemos que verificar si es el ultimo mes o es un mes corriente
                 Thread.sleep(300);
                 first_input_date = driver.findElement(
-                        By.xpath("/html/body/ div[15]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
-                /// html/body
-                /// /div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button
+                        By.xpath("/html/body/div[3]/div[3]/div/div[2]/div[2]/div[3]/div[1]/div[2]/div/div/button"));
+                
                 first_input_date.click();
                 // aqui encontramos un problema ya que la pagina de nuovo no abre en el mes
                 // actual abre un mes asia atras
@@ -162,20 +161,20 @@ public class Boot {
                 // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
                 // que se necesite
                 if (verificardorprimerreporte == 0) {
-                    if(driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]")).isEnabled()){
+                    if(driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/button[2]")).isEnabled()){
                     button_next_month = driver
-                            .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
+                            .findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
                             ///html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]
                         button_next_month.click();
                     }
                     verificardorprimerreporte++;
                 }
                 Thread.sleep(200);
-                label_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div"));
+                label_month = driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/div"));
                 mes_y_año = (Reporte.getMes() + " " + Reporte.getAño());
-                // mes_y_año="October 2022";
+                // mes_y_año="October 2022"; contiene el siguiente formato
                 button_last_month = driver
-                        .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+                        .findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
                 // corregir esta seccion de variables(redireccionar a zona de variables)
                 String dia_inicio = Reporte.getDia_inicio();
                 String dia_final = Reporte.getDia_fin();
@@ -195,8 +194,7 @@ public class Boot {
                             }
                         }
                         button_dia_inicio = driver
-                                .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[" + fila
-                                        + "]/div[" + columna + "]/button"));
+                                .findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+ columna +"]/button"));
                         if (button_dia_inicio.getText().equals(dia_inicio)) {
                             fila_bandera = fila;
                             columna_bandera = columna;
@@ -214,8 +212,7 @@ public class Boot {
                         break;
                     }
                 }
-                button_dia_inicio = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["
-                        + fila_bandera + "]/div[" + columna_bandera + "]/button"));
+                button_dia_inicio = driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+ columna_bandera +"]/button"));
                 button_dia_inicio.click();
 
                 // vamos a llenar el segundo calendario
@@ -223,12 +220,12 @@ public class Boot {
                 fila = 1;
                 columna = 1;
                 second_input_date = driver.findElement(
-                        By.xpath("/html/body/div[15]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
+                        By.xpath("/html/body/div[3]/div[3]/div/div[2]/div[2]/div[3]/div[2]/div[2]/div/div/button"));
                 second_input_date.click();
                 Thread.sleep(200);
                 button_last_month_2 = driver
-                        .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
-                label_month_2 = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div"));
+                        .findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/button[1]"));
+                label_month_2 = driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[1]/div[1]/div"));
                 /*
                  * if(label_month_2!=null){
                  * System.out.println("si se relleno");
@@ -248,9 +245,12 @@ public class Boot {
                                 break;
                             }
                         }
+                        /*  button_dia_final = driver
+                                 .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[" + fila
+                                         + "]/div[" + columna + "]/button")); */
                         button_dia_final = driver
-                                .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div[" + fila
-                                        + "]/div[" + columna + "]/button"));
+                                .findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[2]/div/div["+fila+"]/div["+columna+"]/button"));
+
                         if (button_dia_final.getText().equals(dia_final)) {
                             fila_bandera = fila;
                             columna_bandera = columna;
@@ -268,15 +268,14 @@ public class Boot {
                         break;
                     }
                 }
-                button_dia_final = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[2]/div/div["
-                        + fila_bandera + "]/div[" + columna_bandera + "]/button"));
+                button_dia_final = driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div[2]/div/div["+fila_bandera+"]/div["+columna_bandera+"]/button"));
                 button_dia_final.click();
 
                 // boton cancelar
-                //button_generate_csv = driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[1]"));
+               // button_generate_csv = driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[3]/button[1]"));
 
                 // boton generador
-                button_generate_csv=driver.findElement(By.xpath("/html/body/div[15]/div[3]/div/div[3]/button[2]"));
+                button_generate_csv=driver.findElement(By.xpath("/html/body/div[3]/div[3]/div/div[3]/button[2]"));
 
                 button_generate_csv.click();
                 reportCount++;
