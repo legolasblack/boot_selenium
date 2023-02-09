@@ -49,7 +49,7 @@ public class App {
                                 "May",
                                 "2022");
 
-                boot_Nuovo_credi7.setUp();
+                /* boot_Nuovo_credi7.setUp();
                 boot_Nuovo_credi7.start_nuovo();
                 boot_Nuovo_credi7.Download_nuovo();
  
@@ -67,7 +67,18 @@ public class App {
 
                  boot_Nuovo_confiacel.setUp();
                 boot_Nuovo_confiacel.start_nuovo();
-                boot_Nuovo_confiacel.Download_nuovo(); 
+                boot_Nuovo_confiacel.Download_nuovo();  */
+
+                Boot boot_Nuovo_fiacel = new Boot(
+                        "https://app.nuovopay.com/",
+                        "diegofiacel@outlook.com",
+                        "ba0mdgl4p",
+                        "July",
+                        "2021");
+
+        boot_Nuovo_fiacel.setUp();
+        boot_Nuovo_fiacel.start_nuovo();
+        boot_Nuovo_fiacel.Download_nuovo();
 
         }
 
