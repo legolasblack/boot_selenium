@@ -161,14 +161,18 @@ public class Boot {
                 // adelante por el momento
                 // de querer remplazarlo hacer un algoritmo que avance el mes o atrace segun lo
                 // que se necesite
-                if (verificardorprimerreporte == 0) {
-                    if(driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]")).isEnabled()){
-                    button_next_month = driver
-                            .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
-                            ///html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]
-                        button_next_month.click();
+            for(int i=0;i<2;i++){
+                    if (verificardorprimerreporte == 0) {
+                        if(driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]")).isEnabled()){
+                        button_next_month = driver
+                                .findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]"));
+                                ///html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/button[2]
+                            button_next_month.click();
+                        }
+                        if(i==1){
+                            verificardorprimerreporte++;
+                        }
                     }
-                    verificardorprimerreporte++;
                 }
                 Thread.sleep(200);
                 label_month = driver.findElement(By.xpath("/html/body/div[16]/div[3]/div/div[2]/div[1]/div[1]/div"));
