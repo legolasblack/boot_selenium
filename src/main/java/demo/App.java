@@ -52,14 +52,26 @@ public class App {
                                 "ba0mdgl4p",
                                 "July",
                                 "2021");
+                Boot boot_Nuovo_moneydesk = new Boot(
+                                "https://app.nuovopay.com/",
+                                "diegomoneydesk@outlook.com",
+                                "3vc4t1is2",
+                                "March",
+                                "2023");
+                Boot boot_Nuovo_megapay = new Boot(
+                                "https://app.nuovopay.com/",
+                                "diegomoneydesk@outlook.com",
+                                "3vc4t1is2",
+                                "April",
+                                "2022");
 
                 boot_Nuovo_credi7.setUp();
                 boot_Nuovo_credi7.start_nuovo();
-                boot_Nuovo_credi7.Download_nuovo(); 
+                boot_Nuovo_credi7.Download_nuovo();
 
-                 boot_Nuovo_crediwow.setUp();
+                boot_Nuovo_crediwow.setUp();
                 boot_Nuovo_crediwow.start_nuovo();
-                boot_Nuovo_crediwow.Download_nuovo(); 
+                boot_Nuovo_crediwow.Download_nuovo();
 
                 boot_Nuovo_wimopay.setUp();
                 boot_Nuovo_wimopay.start_nuovo();
@@ -67,15 +79,23 @@ public class App {
 
                 boot_Nuovo_celufacil.setUp();
                 boot_Nuovo_celufacil.start_nuovo();
-                boot_Nuovo_celufacil.Download_nuovo(); 
+                boot_Nuovo_celufacil.Download_nuovo();
 
                 boot_Nuovo_confiacel.setUp();
                 boot_Nuovo_confiacel.start_nuovo();
                 boot_Nuovo_confiacel.Download_nuovo();
-                
+
                 boot_Nuovo_fiacel.setUp();
                 boot_Nuovo_fiacel.start_nuovo();
                 boot_Nuovo_fiacel.Download_nuovo();
+
+                boot_Nuovo_moneydesk.setUp();
+                boot_Nuovo_moneydesk.start_nuovo();
+                boot_Nuovo_moneydesk.Download_nuovo();
+                
+                boot_Nuovo_megapay.setUp();
+                boot_Nuovo_megapay.start_nuovo();
+                boot_Nuovo_megapay.Download_nuovo();
 
         }
 
