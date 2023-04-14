@@ -60,8 +60,8 @@ public class App {
                                 "2023");
                 Boot boot_Nuovo_megapay = new Boot(
                                 "https://app.nuovopay.com/",
-                                "diegomoneydesk@outlook.com",
-                                "3vc4t1is2",
+                                "diegomegapay@outlook.com",
+                                "a20eh145j",
                                 "April",
                                 "2022");
 
